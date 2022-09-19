@@ -11,4 +11,7 @@ class Author(models.Model):
 class Book(models.Model):
     name = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    genrej = models.CharField(max_length=200)
+    genre = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.name} by {self.author}"
