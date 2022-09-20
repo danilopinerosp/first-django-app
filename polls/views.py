@@ -1,10 +1,16 @@
-from django.http import HttpResponse
+from curses.ascii import HT
+from django.http import HttpResponse, Http404
 from .models import Question
 from django.shortcuts import render
 
 
 def detail(request: HttpResponse, question_id: int):
-    return HttpResponse(f"You're looking at question {question_id}")
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    context = {"question": question}
+    return render(request, "polls/detail.html", context)
 
 def results(request: HttpResponse, question_id: int):
     response = f"You're looking at the results of question {question_id}"
